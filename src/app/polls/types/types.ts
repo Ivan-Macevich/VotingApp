@@ -2,6 +2,8 @@ export type CreatePollFields = {
   topic: string;
   votesPerVoter: number;
   name: string;
+  pollID: string;
+  userID: string;
 };
 
 export type JoinPollFields = {

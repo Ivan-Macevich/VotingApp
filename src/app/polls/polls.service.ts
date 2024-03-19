@@ -5,17 +5,24 @@ import {
   JoinPollFields,
   RejoinPollFields,
 } from './types/types';
-
+import { PollsRepository } from 'src/domain/repos/polls.repo';
 @Injectable()
 export class PollsService {
-  async createPoll(fields: CreatePollFields) {
+  constructor(private readonly pollsRepository: PollsRepository) {}
+  async createPoll(
+    fields: Pick<CreatePollFields, 'topic' | 'votesPerVoter' | 'name'>,
+  ) {
     const pollID = createPollID();
     const userID = createUserID();
 
-    return {
+    const createdPoll = await this.pollsRepository.createPoll({
       ...fields,
-      userID,
       pollID,
+      userID,
+    });
+
+    return {
+      poll: createdPoll,
     };
   }
 
